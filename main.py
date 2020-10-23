@@ -4,7 +4,7 @@ from Bio import AlignIO
 
 """
 # Test
-AloeChloroplastGenBank=AlignIO.read("AloeChloroplast.gb","genbank")
+AloeChloroplastGenBank=AlignIO.read("Aloe Chloroplast.gb","genbank")
 tmpFile=open(".tmp/tempAloeChloroplastAllignmentFile.txt","w")
 for record in AloeChloroplastGenBank:
     print(record.id)
@@ -13,7 +13,7 @@ tmpFile.close()
 """
 
 """
-AloeChloroplastGenBank=list(SeqIO.parse("AloeChloroplast.gb","genbank"))
+AloeChloroplastGenBank=list(SeqIO.parse("Aloe Chloroplast.gb","genbank"))
 for record in AloeChloroplastGenBank:
     print(record.id)
     print(repr(record.seq))
@@ -21,5 +21,5 @@ for record in AloeChloroplastGenBank:
 """
 
 # Load sequence
-AloeChloroplastGenBank=SeqIO.read("AloeChloroplast.gb","genbank")
+AloeChloroplastGenBank=SeqIO.read("Aloe Chloroplast.gb","genbank")
 print(AloeChloroplastGenBank.id)
