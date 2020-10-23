@@ -1,25 +1,44 @@
 import Bio
 from Bio import SeqIO
-from Bio import AlignIO
+from dnachisel import *
 
-"""
-# Test
-AloeChloroplastGenBank=AlignIO.read("Aloe Chloroplast.gb","genbank")
-tmpFile=open(".tmp/tempAloeChloroplastAllignmentFile.txt","w")
-for record in AloeChloroplastGenBank:
-    print(record.id)
-    tmpFile.write(str(record.seq))
-tmpFile.close()
-"""
+finalSequence=list()
 
-"""
-AloeChloroplastGenBank=list(SeqIO.parse("Aloe Chloroplast.gb","genbank"))
-for record in AloeChloroplastGenBank:
-    print(record.id)
-    print(repr(record.seq))
-    print(len(record.seq))
-"""
+HumanInsulinFASTA=list(SeqIO.parse("Genome/Human Insulin.fasta","fasta"))
+for record in HumanInsulinFASTA:
+    print(record.description)
+    print(record.seq)
+    strSeq=str(record.seq)[:(len(str(record.seq))//3)*3]
+    problem = DnaOptimizationProblem(
+        sequence=strSeq,
+        constraints=[
+            EnforceTranslation()
+        ],
+        objectives=[CodonOptimize(species=34199)]
+    )
 
-# Load sequence
-AloeChloroplastGenBank=SeqIO.read("Genome/Aloe Chloroplast.gb","genbank")
-print(AloeChloroplastGenBank.id)
+    # SOLVE THE CONSTRAINTS, OPTIMIZE WITH RESPECT TO THE OBJECTIVE
+
+    problem.resolve_constraints()
+    problem.optimize()
+
+    # PRINT SUMMARIES TO CHECK THAT CONSTRAINTS PASS
+
+    print(problem.constraints_text_summary())
+    print(problem.objectives_text_summary())
+
+    # GET THE FINAL SEQUENCE (AS STRING OR ANNOTATED BIOPYTHON RECORDS)
+
+    final_sequence = problem.sequence  # string
+    final_sequence = Bio.SeqRecord.SeqRecord(
+        Bio.Seq.Seq(final_sequence),
+        id=record.id,
+        name=record.name,
+        description=record.description+" Optimized for Aloe vera based on Kazusa species 34199."
+    )
+    #final_record = problem.to_record(with_sequence_edits=True)
+    finalSequence.append(final_sequence)
+
+for newRecord in finalSequence:
+    print(newRecord.description)
+    print(newRecord.seq)
