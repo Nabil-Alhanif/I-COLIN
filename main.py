@@ -21,5 +21,5 @@ for record in AloeChloroplastGenBank:
 """
 
 # Load sequence
-AloeChloroplastGenBank=SeqIO.read("Aloe Chloroplast.gb","genbank")
+AloeChloroplastGenBank=SeqIO.read("Genome/Aloe Chloroplast.gb","genbank")
 print(AloeChloroplastGenBank.id)
