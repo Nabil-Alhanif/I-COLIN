@@ -1,7 +1,7 @@
 import Bio
 from Bio import SeqIO
 from dnachisel import *
-
+"""
 finalSequence=list()
 
 HumanInsulinFASTA=list(SeqIO.parse("Genome/Human Insulin.fasta","fasta"))
@@ -42,3 +42,4 @@ for record in HumanInsulinFASTA:
 for newRecord in finalSequence:
     print(newRecord.description)
     print(newRecord.seq)
+"""
